@@ -1,45 +1,53 @@
-//c++ network  author : liqi
-//Nangjing University of Posts and Telecommunications
-//date 2017.5.21,20:27
+// c++ network  author : liqi
+// Nangjing University of Posts and Telecommunications
+// date 2017.5.21,20:27
 #ifndef NETWORK_H
 #define NETWORK_H
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include <algorithm>
-#include <stdlib.h>
-#include <memory.h>
-#include <fstream>
-#include <cstring>
-#include <cblas.h>
-#include <string>
 #include <math.h>
-#include "pBox.h"
+#include <memory.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <string>
+#include "Blob.h"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+
+
 using namespace cv;
 
-void addbias(struct pBox *pbox, mydataFmt *pbias);
-void image2Matrix(const Mat &image, const struct pBox *pbox);
-void featurePad(const pBox *pbox, const pBox *outpBox, const int pad);
-void feature2Matrix(const pBox *pbox, pBox *Matrix, const Weight *weight);
-void maxPooling(const pBox *pbox, pBox *Matrix, int kernelSize, int stride);
-void relu(struct pBox *pbox, mydataFmt *pbias);
-void prelu(struct pBox *pbox, mydataFmt *pbias, mydataFmt *prelu_gmma);
-void convolution(const Weight *weight, const pBox *pbox, pBox *outpBox, const struct pBox *matrix);
-void fullconnect(const Weight *weight, const pBox *pbox, pBox *outpBox);
-void readData(string filename, long dataNumber[], mydataFmt *pTeam[]);
-long initConvAndFc(struct Weight *weight, int schannel, int lchannel, int kersize, int stride, int pad);
+void addbias(struct Blob *blob, Dtype *pbias);
+void image2Matrix(const Mat &image, const struct Blob *blob);
+void featurePad(const Blob *bob, const Blob *outBlob, const int pad);
+void feature2Matrix(const Blob *blob, Blob *Matrix, const Weight *weight);
+void maxPooling(const Blob *blob, Blob *Matrix, int kernelSize, int stride);
+void relu(struct Blob *Blob, Dtype *pbias);
+void prelu(struct Blob *Blob, Dtype *pbias, Dtype *prelu_gmma);
+void convolution(const Weight *weight, const Blob *blob, Blob *outBlob,
+                 const struct Blob *matrix);
+void fullconnect(const Weight *weight, const Blob *blob, Blob *outBlob);
+void readData(string filename, long dataNumber[], Dtype *pTeam[]);
+void readData(const float *datasource, int sourcelen, long dataNumber[],
+              Dtype *pTeam[], int num);
+long initConvAndFc(struct Weight *weight, int schannel, int lchannel,
+                   int kersize, int stride, int pad);
 void initpRelu(struct pRelu *prelu, int width);
-void softmax(const struct pBox *pbox);
+void softmax(const struct Blob *Blob);
 
-void image2MatrixInit(Mat &image, struct pBox *pbox);
-void featurePadInit(const pBox *pbox, pBox *outpBox, const int pad);
-void maxPoolingInit(const pBox *pbox, pBox *Matrix, int kernelSize, int stride);
-void feature2MatrixInit(const pBox *pbox, pBox *Matrix, const Weight *weight);
-void convolutionInit(const Weight *weight, const pBox *pbox, pBox *outpBox, const struct pBox *matrix);
-void fullconnectInit(const Weight *weight, pBox *outpBox);
-
+void image2MatrixInit(Mat &image, struct Blob *Blob);
+void featurePadInit(const Blob *blob, Blob *outBlob, const int pad);
+void maxPoolingInit(const Blob *blob, Blob *Matrix, int kernelSize, int stride);
+void feature2MatrixInit(const Blob *blob, Blob *Matrix, const Weight *weight);
+void convolutionInit(const Weight *weight, const Blob *blob, Blob *outBlob,
+                     const struct Blob *matrix);
+void fullconnectInit(const Weight *weight, Blob *outBlob);
 
 bool cmpScore(struct orderScore lsh, struct orderScore rsh);
-void nms(vector<struct Bbox> &boundingBox_, vector<struct orderScore> &bboxScore_, const float overlap_threshold, string modelname = "Union");
-void refineAndSquareBbox(vector<struct Bbox> &vecBbox, const int &height, const int &width);
+void nms(vector<struct Bbox> &boundingBox_,
+         vector<struct orderScore> &bboxScore_, const float overlap_threshold,
+         string modelname = "Union");
+void refineAndSquareBbox(vector<struct Bbox> &vecBbox, const int &height,
+                         const int &width);
 
 #endif

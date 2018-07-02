@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 project(main)
 
 set(QMAKE_CXXFLAGS "-std=c++11")
-include_directories(/home/liqi/SoftInstallPart/openblas/include)
-link_directories(/home/liqi/SoftInstallPart/openblas/lib)
-
+include_directories(/home/wencc/anaconda2/include)
+link_directories(/home/wencc/anaconda2/lib)
+include_directories(${PROJECT_SOURCE_DIR}/eigen)
 find_package( OpenCV REQUIRED)
 
 AUX_SOURCE_DIRECTORY(./src DIR_SRCS)
